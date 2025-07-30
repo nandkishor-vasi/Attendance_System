@@ -1,0 +1,55 @@
+const express = require("express");
+const cors = require("cors");
+const axios = require("axios");
+const app = express();
+require("dotenv").config();
+const PORT = 3000;
+const postgres = require('postgres');
+const sql = postgres(process.env.DATABASE_URL);
+app.use(express.json());
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
+
+app.post("/api/form", async (req, res) => {
+  try {
+    const payload = JSON.stringify(req.body);
+
+    const response = await axios.post(
+      "https://script.google.com/macros/s/AKfycbxnwNS0MGbily-qc1SFnT4ZxJDCoTrNYKdJusdMCKmwtAjQ4_kaBv4YdTSVqpNx/exec",
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    res.json({ success: true, googleData: response.data });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to call Google Script" });
+  }
+});
+
+app.post("/api/login", async (req, res) => {
+  const { email, password } = req.body;
+  console.log("Login request received:", email);
+
+  try {
+     const users = await sql`
+     SELECT * FROM users WHERE email = ${email} AND password = ${password}`;
+
+     if(users.length>0){
+      res.json({ success: true, user: users[0] });
+     } else{
+      res.status(401).json({ success: false, message: "Invalid credentials" });
+     }
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+})
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
