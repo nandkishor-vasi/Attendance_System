@@ -3,7 +3,7 @@ const cors = require("cors");
 const axios = require("axios");
 const app = express();
 require("dotenv").config();
-const PORT = 3000;
+const PORT = process.env.BACKEND_URL;
 const postgres = require('postgres');
 const sql = postgres(process.env.DATABASE_URL);
 app.use(express.json());
