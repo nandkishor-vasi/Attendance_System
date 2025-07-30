@@ -9,7 +9,7 @@ const sql = postgres(process.env.DATABASE_URL);
 app.use(express.json());
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: process.env.FRONTEND_URL,
   credentials: true,
 }));
 
@@ -18,7 +18,7 @@ app.post("/api/form", async (req, res) => {
     const payload = JSON.stringify(req.body);
 
     const response = await axios.post(
-      "https://script.google.com/macros/s/AKfycbxnwNS0MGbily-qc1SFnT4ZxJDCoTrNYKdJusdMCKmwtAjQ4_kaBv4YdTSVqpNx/exec",
+      process.env.GOOGLE_SCRIPT,
       payload,
       {
         headers: {

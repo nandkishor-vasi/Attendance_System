@@ -9,7 +9,7 @@ function Scanner() {
   const [scanResult, setScanResult] = useState("");
   const navigate = useNavigate();
   const videoRef = useRef(null);
-
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (scanning) {
@@ -66,7 +66,7 @@ function Scanner() {
       Quagga.stop();
 
       try {
-        const res = await fetch("http://localhost:3000/api/form", {
+        const res = await fetch(`${apiUrl}/api/form`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: code }),
