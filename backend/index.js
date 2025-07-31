@@ -3,7 +3,7 @@ const cors = require("cors");
 const axios = require("axios");
 const app = express();
 require("dotenv").config();
-const BACKEND_URL = process.env.BACKEND_URL;
+const PORT = process.env.PORT;
 const postgres = require('postgres');
 const sql = postgres(process.env.DATABASE_URL);
 app.use(express.json());
@@ -52,4 +52,4 @@ app.post("/api/login", async (req, res) => {
   }
 })
 
-app.listen(BACKEND_URL, () => console.log(`Server running on port ${BACKEND_URL}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
