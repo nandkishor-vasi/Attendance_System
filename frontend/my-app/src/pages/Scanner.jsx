@@ -9,7 +9,7 @@ function Scanner() {
   const [scanResult, setScanResult] = useState("");
   const navigate = useNavigate();
   const videoRef = useRef(null);
-  const apiUrl = import.meta.env.VITE_API_URL;
+  const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     if (scanning) {

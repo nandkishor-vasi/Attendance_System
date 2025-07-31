@@ -6,7 +6,7 @@ function Home( {setIsLoggedIn, isLoggedIn }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const apiUrl = import.meta.env.BACKEND_URL;
+  const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();
