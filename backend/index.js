@@ -13,25 +13,51 @@ app.use(cors({
   credentials: true,
 }));
 
+// app.post("/api/form", async (req, res) => {
+//   try {
+//     const payload = JSON.stringify(req.body);
+//     const response = await axios.post(
+//       process.env.GOOGLE_SCRIPT,
+//       payload,
+//       {
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//       }
+//     );
+
+//     res.json({ success: true, googleData: response.data });
+//   } catch (error) {
+//     res.status(500).json({ error: "Failed to call Google Script" });
+//   }
+// });
+
 app.post("/api/form", async (req, res) => {
   try {
-    const payload = JSON.stringify(req.body);
+    const { id, domain } = req.body; 
 
-    const response = await axios.post(
-      process.env.GOOGLE_SCRIPT,
-      payload,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    let scriptUrl;
+    if (domain === "web") {
+      scriptUrl = process.env.WEB_GOOGLE_SCRIPT;
+    } else if (domain === "cp") {
+      scriptUrl = process.env.CP_GOOGLE_SCRIPT;
+    } else {
+      scriptUrl = process.env.AIDS_GOOGLE_SCRIPT;
+    }
 
-    res.json({ success: true, googleData: response.data });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to call Google Script" });
+    const payload = JSON.stringify(req.body); 
+
+    const response = await axios.post(scriptUrl, payload, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    res.status(200).json({ success: true, data: response.data });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
 });
+
 
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
