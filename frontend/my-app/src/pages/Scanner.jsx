@@ -21,10 +21,8 @@ function Scanner() {
           inputStream: {
             type: "LiveStream",
             constraints: {
-              width: { min: 640 },
-              height: { min: 480 },
-              facingMode: "environment",
-              aspectRatio: { min: 1, max: 2 },
+              facingMode: "environment"
+              // Removed width, height, and aspectRatio for better compatibility
             },
             target: videoRef.current,
           },
