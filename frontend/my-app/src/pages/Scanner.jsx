@@ -7,6 +7,7 @@ function Scanner() {
   const [scanning, setScanning] = useState(false);
   const [responseMsg, setResponseMsg] = useState("");
   const [scanResult, setScanResult] = useState("");
+  const domain = localStorage.getItem("selectedDomain");
   const navigate = useNavigate();
   const videoRef = useRef(null);
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
@@ -66,10 +67,11 @@ function Scanner() {
       Quagga.stop();
 
       try {
+
         const res = await fetch(`${apiUrl}/api/form`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: code }),
+          body: JSON.stringify({ id: code, domain: domain }),
         });
 
         const data = await res.json();

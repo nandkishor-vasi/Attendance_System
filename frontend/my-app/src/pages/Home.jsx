@@ -5,11 +5,16 @@ import { useNavigate } from "react-router-dom";
 function Home( {setIsLoggedIn, isLoggedIn }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [domain, setDomain] = useState("");
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (!domain) {
+      alert("Please select a domain.");
+      return;
+    }
     try {
       const response = await axios.post(`${apiUrl}/api/login`, {
         email,
@@ -20,6 +25,7 @@ function Home( {setIsLoggedIn, isLoggedIn }) {
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("userEmail", email);
+        localStorage.setItem("selectedDomain", domain);
         navigate("/scan");
       } else {
         alert("Invalid credentials");
@@ -57,6 +63,7 @@ function Home( {setIsLoggedIn, isLoggedIn }) {
         boxSizing: "border-box"
       }}
     >
+
       <div style={{ marginBottom: "20px" }}>
         <label
           htmlFor="email"
@@ -80,6 +87,35 @@ function Home( {setIsLoggedIn, isLoggedIn }) {
             boxSizing: "border-box"
           }}
         />
+      </div>
+
+      <div style={{ marginBottom: "20px" }}>
+        <label
+          htmlFor="domain"
+          style={{ display: "block", marginBottom: "6px", fontWeight: "bold" }}
+        >
+          Select Domain:
+        </label>
+        <select
+          id="domain"
+          value={domain}
+          onChange={(e) => setDomain(e.target.value)}
+          required
+          style={{
+            width: "100%",
+            padding: "12px",
+            borderRadius: "4px",
+            border: "1px solid rgb(240, 245, 332)",
+            backgroundColor: "transparent",
+            fontSize: "16px",
+            boxSizing: "border-box"
+          }}
+        >
+          <option value="" disabled>Select a domain</option>
+          <option value="web">Web Dev</option>
+          <option value="cp">CP</option>
+          <option value="aids">AI/DS</option>
+        </select>
       </div>
 
       <div style={{ marginBottom: "20px" }}>
@@ -132,8 +168,8 @@ function Home( {setIsLoggedIn, isLoggedIn }) {
       Redirecting to scan...
     </p>
   )}
-</div>
 
+  </div>
   );
 }
 
