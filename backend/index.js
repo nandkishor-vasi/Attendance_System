@@ -36,25 +36,38 @@ app.post("/api/form", async (req, res) => {
   try {
     const { id, domain } = req.body; 
 
-    let scriptUrl;
-    if (domain === "web") {
-      scriptUrl = process.env.WEB_GOOGLE_SCRIPT;
-    } else if (domain === "cp") {
-      scriptUrl = process.env.CP_GOOGLE_SCRIPT;
-    } else {
-      scriptUrl = process.env.AIDS_GOOGLE_SCRIPT;
-    }
+    // let scriptUrl;
+    // if (domain === "web") {
+    //   scriptUrl = process.env.WEB_GOOGLE_SCRIPT;
+    //   console.log(scriptUrl);
+    // } else if (domain === "cp") {
+    //   scriptUrl = process.env.CP_GOOGLE_SCRIPT;
+    // } else {
+    //   scriptUrl = process.env.AIDS_GOOGLE_SCRIPT;
+    // }
 
+    let scriptUrl = process.env.GOOGLE_SCRIPT
     const payload = JSON.stringify(req.body); 
+     console.log("Sending payload to Google Script:", payload);
+    console.log("Using script URL:", scriptUrl);
 
     const response = await axios.post(scriptUrl, payload, {
       headers: { "Content-Type": "application/json" },
     });
+    console.log("Google Script response status:", response.status);
+    console.log("Google Script response data:", response.data);
+
 
     res.status(200).json({ success: true, data: response.data });
   } catch (err) {
-    console.error(err);
+     if (err.response) {
+      console.error("Axios error response status:", err.response.status);
+      console.error("Axios error response data:", err.response.data);
+    } else {
+      console.error("Axios error:", err.message);
+    }
     res.status(500).json({ error: "Server error" });
+  
   }
 });
 
