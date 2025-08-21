@@ -45,11 +45,10 @@ function Home( {setIsLoggedIn, isLoggedIn }) {
     alignItems: "center",
     justifyContent: "center",
     fontFamily: "Arial, sans-serif",
-    minHeight: "100vh",
     boxSizing: "border-box"
   }}
 >
-  <h1 style={{ marginBottom: "30px", textAlign: "center" }}>MLSC Attendance Page</h1>
+  <h1 style={{ marginBottom: "30px", textAlign: "center" }}>MLSC Attendance</h1>
 
   {!isLoggedIn ? (
     <form
@@ -168,6 +167,9 @@ function Home( {setIsLoggedIn, isLoggedIn }) {
       Redirecting to scan...
     </p>
   )}
+  
+  <p style={{position:"absolute", bottom:"0"}}> Made with ❤️ by Nandkishor</p>
+
 
   </div>
   );
