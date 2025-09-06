@@ -15,6 +15,8 @@ A modern, real-time barcode-based attendance management system built for MLSC (M
 - **📊 PostgreSQL Database**: Robust data storage and user management
 - **🎨 Modern UI/UX**: Responsive design with glassmorphism effects and smooth animations
 
+[Live Demo](https://attendance-system-sage.vercel.app/)
+
 ![Home_Page](https://res.cloudinary.com/djgg2f0jh/image/upload/v1757142666/Screenshot_2025-09-06_124040_opxv4a.png)
 ![Scanner_Page](https://res.cloudinary.com/djgg2f0jh/image/upload/v1757142777/Screenshot_2025-09-06_124242_z2hzqd.png)
 
